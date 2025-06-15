@@ -1,0 +1,845 @@
+/* Customizações para LixoApp */
+:root {
+  --primary-color: #2ecc71;
+  --primary-dark: #27ae60;
+  --secondary-color: #f1f1f1;
+  --secondary-dark: #e0e0e0;
+  --danger-color: #e74c3c;
+  --danger-dark: #c0392b;
+  --success-color: #2ecc71;
+  --warning-color: #f1c40f;
+  --text-color: #333;
+  --text-muted: #666;
+  --border-color: #ddd;
+  --primary-rgb: 46, 204, 113;
+  --accent-color: #e74c3c;
+  --light-bg: #f8f9fa;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+  --background-color: #f5f6fa;
+}
+
+/* Reset e estilos base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background: var(--background-color);
+}
+
+/* Login */
+.login-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-container {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-header {
+  margin-bottom: 30px;
+}
+
+.login-header i {
+  font-size: 48px;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.login-header h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.login-header p {
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+.login-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  background: var(--primary-color);
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.login-button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.login-button i {
+  font-size: 20px;
+}
+
+/* Navigation */
+.vf-navigation {
+  background: white;
+  box-shadow: var(--card-shadow);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.vf-navigation__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.vf-navigation__logo i {
+  font-size: 1.8rem;
+}
+
+/* Container */
+.vf-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Login Section */
+#login-section {
+  margin-top: 15vh;
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+.login-header {
+  margin-bottom: 2rem;
+}
+
+.login-header i {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+.login-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.login-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.login-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.login-card i {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.login-card h3 {
+  margin: 1rem 0;
+  color: var(--text-color);
+}
+
+.login-card p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+}
+
+.feature i {
+  color: var(--primary-color);
+}
+
+/* Dashboard */
+.dashboard-header {
+  background: white;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+  box-shadow: var(--card-shadow);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info i {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Stats Card */
+.stats-card {
+  grid-column: 1 / -1;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1rem;
+  background: var(--light-bg);
+  border-radius: 8px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Lists */
+.veiculos-list,
+.rotas-list,
+.clientes-list,
+.coletas-list,
+.pagamentos-list {
+  margin: 1rem 0;
+}
+
+.veiculo-item,
+.rota-item,
+.cliente-item,
+.coleta-item,
+.pagamento-item {
+  background: var(--light-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.veiculo-info,
+.rota-info,
+.cliente-info,
+.coleta-info,
+.pagamento-info {
+  flex: 1;
+}
+
+.veiculo-info h4,
+.rota-info h4,
+.cliente-info h4,
+.coleta-info h4,
+.pagamento-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-color);
+}
+
+.veiculo-info p,
+.rota-info p,
+.cliente-info p,
+.coleta-info p,
+.pagamento-info p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Search Bar */
+.search-bar {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.search-bar i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+/* Rating */
+.rating {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.rating .fa-star {
+  color: #ddd;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: var(--transition);
+}
+
+.rating .fa-star:hover,
+.rating .fa-star.active {
+  color: #f1c40f;
+}
+
+.avaliacao-form textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.status-ativo {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-pendente {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+.status-inativo {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.status-realizada {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+/* Notifications */
+.notification {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: var(--transition);
+  z-index: 1000;
+}
+
+.notification.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.notification i {
+  font-size: 1.5rem;
+}
+
+.notification-success i {
+  color: var(--primary-color);
+}
+
+.notification-error i {
+  color: var(--accent-color);
+}
+
+.notification-warning i {
+  color: #f1c40f;
+}
+
+.notification-info i {
+  color: #3498db;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Footer */
+.vf-footer {
+  background: white;
+  padding: 2rem 0;
+  margin-top: 4rem;
+  text-align: center;
+  color: #666;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .vf-container {
+    padding: 1rem;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .login-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .features {
+    grid-template-columns: 1fr;
+  }
+  
+  .notification {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+  }
+}
+
+/* Estilos para o mapa */
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.map-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Estilos para formulários */
+.cliente-form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group select {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Estilos para listas */
+.list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cliente-item,
+.rota-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cliente-info,
+.rota-info {
+    flex: 1;
+}
+
+.cliente-info h4,
+.rota-info h4 {
+    margin: 0 0 5px 0;
+    color: var(--text-color);
+}
+
+.cliente-info p,
+.rota-info p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.cliente-actions,
+.rota-actions {
+    display: flex;
+    gap: 5px;
+}
+
+/* Botões */
+.primary-button,
+.secondary-button,
+.danger-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
+
+.primary-button {
+    background: var(--primary-color);
+    color: white;
+}
+
+.primary-button:hover {
+    background: var(--primary-dark);
+}
+
+.secondary-button {
+    background: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.secondary-button:hover {
+    background: var(--secondary-dark);
+}
+
+.danger-button {
+    background: var(--danger-color);
+    color: white;
+}
+
+.danger-button:hover {
+    background: var(--danger-dark);
+}
+
+/* Status badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-ativo {
+    background: var(--success-color);
+    color: white;
+}
+
+.status-inativo {
+    background: var(--danger-color);
+    color: white;
+}
+
+.status-pendente {
+    background: var(--warning-color);
+    color: var(--text-color);
+}
+
+/* Navegação */
+.navbar {
+    background-color: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.navbar-menu {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: var(--background-color);
+}
+
+.nav-button.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.logout-button {
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+    opacity: 0.9;
+}
+
+/* Seções */
+.section {
+    padding: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: var(--text-color);
+}
+
+/* Search bar */
+.search-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.search-bar select {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: white;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .navbar-menu {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .nav-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .section {
+        padding: 1rem;
+    }
+
+    .section-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .search-bar {
+        flex-direction: column;
+    }
+
+    .list-item {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .list-item-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+} 

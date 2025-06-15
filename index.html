@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LixoApp - Gestão de Resíduos</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <main>
+    <section id="login-section" class="login-section">
+      <div class="login-container">
+        <div class="login-header">
+          <i class="fas fa-trash"></i>
+          <h1>LixoApp</h1>
+          <p>Gestão Inteligente de Resíduos</p>
+        </div>
+        <div class="login-options">
+          <button class="login-button" onclick="login('provedor')">
+            <i class="fas fa-truck"></i>
+            Área do Provedor
+          </button>
+          <button class="login-button" onclick="login('cliente')">
+            <i class="fas fa-user"></i>
+            Área do Cliente
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="scripts.js"></script>
+</body>
+</html> 

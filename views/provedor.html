@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LixoApp - Área do Provedor</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .map-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .cliente-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .cliente-form, .veiculo-form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .form-group label {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        .form-group input,
+        .form-group select {
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .status-badge.disponivel {
+            background-color: var(--success-color);
+            color: white;
+        }
+        .status-badge.em-uso {
+            background-color: var(--warning-color);
+            color: white;
+        }
+        .status-badge.manutencao {
+            background-color: var(--danger-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-trash"></i>
+            <span>LixoApp</span>
+        </div>
+        <div class="navbar-menu">
+            <button class="nav-button active" onclick="navegar('dashboard')">
+                <i class="fas fa-chart-line"></i>
+                Dashboard
+            </button>
+            <button class="nav-button" onclick="navegar('clientes')">
+                <i class="fas fa-users"></i>
+                Clientes
+            </button>
+            <button class="nav-button" onclick="navegar('rotas')">
+                <i class="fas fa-route"></i>
+                Rotas
+            </button>
+            <button class="nav-button" onclick="navegar('veiculos')">
+                <i class="fas fa-truck"></i>
+                Veículos
+            </button>
+        </div>
+        <button class="logout-button" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Sair
+        </button>
+    </nav>
+
+    <main>
+        <!-- Dashboard -->
+        <section id="dashboard" class="dashboard-section">
+            <h2>Dashboard</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-info">
+                        <h3>Total de Clientes</h3>
+                        <p id="total-clientes">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-check"></i>
+                    <div class="stat-info">
+                        <h3>Clientes Ativos</h3>
+                        <p id="clientes-ativos">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <div class="stat-info">
+                        <h3>Receita Total</h3>
+                        <p id="total-receita">R$ 0,00</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <div class="stat-info">
+                        <h3>Avaliação Média</h3>
+                        <p id="avaliacao">0.0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Próximas Coletas</h3>
+                    <div id="proximas-coletas" class="list-container"></div>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Pagamentos Pendentes</h3>
+                    <div id="pagamentos-pendentes" class="list-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clientes -->
+        <section id="clientes" class="section" style="display: none;">
+            <div class="section-header">
+                <h2>Gestão de Clientes</h2>
+                <button class="primary-button" onclick="mostrarFormCliente()">
+                    <i class="fas fa-plus"></i>
+                    Novo Cliente
+                </button>
+            </div>
+
+            <div id="cliente-form" class="cliente-form" style="display: none;">
+                <h3>Adicionar/Editar Cliente</h3>
+                <form id="form-cliente" onsubmit="salvarCliente(event)">
+                    <input type="hidden" id="cliente-id">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="cliente-nome">Nome</label>
+                            <input type="text" id="cliente-nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cliente-telefone">Telefone</label>
+                            <input type="tel" id="cliente-telefone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cliente-email">Email</label>
+                            <input type="email" id="cliente-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cliente-endereco">Endereço</label>
+                            <input type="text" id="cliente-endereco" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cliente-frequencia">Frequência</label>
+                            <select id="cliente-frequencia" required>
+                                <option value="diaria">Diária</option>
+                                <option value="semanal">Semanal</option>
+                                <option value="quinzenal">Quinzenal</option>
+                                <option value="mensal">Mensal</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cliente-volume">Volume</label>
+                            <select id="cliente-volume" required>
+                                <option value="pequeno">Pequeno</option>
+                                <option value="medio">Médio</option>
+                                <option value="grande">Grande</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="secondary-button" onclick="cancelarFormCliente()">Cancelar</button>
+                        <button type="submit" class="primary-button">Salvar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" id="cliente-search" placeholder="Buscar cliente...">
+                <select id="cliente-filter">
+                    <option value="todos">Todos</option>
+                    <option value="ativos">Ativos</option>
+                    <option value="inativos">Inativos</option>
+                </select>
+            </div>
+
+            <div id="clientes-list" class="list-container"></div>
+        </section>
+
+        <!-- Rotas -->
+        <section id="rotas" class="section" style="display: none;">
+            <div class="section-header">
+                <h2>Gestão de Rotas</h2>
+                <button class="primary-button" onclick="mostrarFormRota()">
+                    <i class="fas fa-plus"></i>
+                    Nova Rota
+                </button>
+            </div>
+
+            <div id="rota-form" class="cliente-form" style="display: none;">
+                <h3>Definir Rota</h3>
+                <form id="form-rota" onsubmit="salvarRota(event)">
+                    <div class="form-group">
+                        <label for="rota-inicio">Início</label>
+                        <input type="text" id="rota-inicio" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Pontos Intermediários</label>
+                        <div id="pontos-intermediarios"></div>
+                        <button type="button" class="secondary-button" onclick="adicionarPontoIntermediario()">Adicionar Ponto</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="rota-fim">Fim</label>
+                        <input type="text" id="rota-fim" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="secondary-button" onclick="cancelarFormRota()">Cancelar</button>
+                        <button type="submit" class="primary-button">Salvar Rota</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="rotas-list" class="list-container"></div>
+        </section>
+
+        <!-- Veículos -->
+        <section id="veiculos" class="section" style="display: none;">
+            <div class="section-header">
+                <h2>Gestão de Veículos</h2>
+                <button class="primary-button" onclick="mostrarFormVeiculo()">
+                    <i class="fas fa-plus"></i>
+                    Novo Veículo
+                </button>
+            </div>
+
+            <div id="veiculo-form" class="veiculo-form" style="display: none;">
+                <h3>Adicionar/Editar Veículo</h3>
+                <form id="form-veiculo" onsubmit="salvarVeiculo(event)">
+                    <input type="hidden" id="veiculo-id">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="veiculo-placa">Placa</label>
+                            <input type="text" id="veiculo-placa" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="veiculo-tipo">Tipo</label>
+                            <select id="veiculo-tipo" required>
+                                <option value="caminhao">Caminhão</option>
+                                <option value="van">Van</option>
+                                <option value="pickup">Pickup</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="veiculo-capacidade">Capacidade</label>
+                            <input type="text" id="veiculo-capacidade" placeholder="Ex: 5 toneladas" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="secondary-button" onclick="cancelarFormVeiculo()">Cancelar</button>
+                        <button type="submit" class="primary-button">Salvar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" id="veiculo-search" placeholder="Buscar veículo...">
+                <select id="veiculo-filter">
+                    <option value="todos">Todos</option>
+                    <option value="disponivel">Disponível</option>
+                    <option value="em-uso">Em Uso</option>
+                    <option value="manutencao">Manutenção</option>
+                </select>
+            </div>
+
+            <div id="veiculos-list" class="list-container"></div>
+        </section>
+    </main>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../data.js"></script>
+    <script src="../scripts.js"></script>
+</body>
+</html> 

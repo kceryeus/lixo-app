@@ -1,0 +1,217 @@
+<div class="cliente-dashboard">
+  <header class="dashboard-header">
+    <div class="header-content">
+      <h1>Área do Cliente</h1>
+      <div class="user-info">
+        <i class="fas fa-user-circle"></i>
+        <span id="cliente-nome">Carregando...</span>
+        <button class="logout-button"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-grid">
+    <!-- Informações do Cliente -->
+    <div class="dashboard-card">
+      <h3><i class="fas fa-user"></i> Meus Dados</h3>
+      <div class="cliente-info" id="cliente-info">
+        <!-- Preenchido via JavaScript -->
+      </div>
+      <button class="vf-button vf-button--secondary" onclick="editarDados()">
+        <i class="fas fa-edit"></i> Editar Dados
+      </button>
+    </div>
+
+    <!-- Status do Serviço -->
+    <div class="dashboard-card">
+      <h3><i class="fas fa-info-circle"></i> Status do Serviço</h3>
+      <div class="servico-info" id="servico-info">
+        <!-- Preenchido via JavaScript -->
+      </div>
+    </div>
+
+    <!-- Próxima Coleta -->
+    <div class="dashboard-card">
+      <h3><i class="fas fa-calendar-check"></i> Próxima Coleta</h3>
+      <div class="proxima-coleta" id="proxima-coleta">
+        <!-- Preenchido via JavaScript -->
+      </div>
+      <button class="vf-button vf-button--primary" onclick="solicitarColeta()">
+        <i class="fas fa-truck"></i> Solicitar Coleta Extra
+      </button>
+    </div>
+
+    <!-- Histórico de Coletas -->
+    <div class="dashboard-card">
+      <h3><i class="fas fa-history"></i> Histórico de Coletas</h3>
+      <div class="historico-coletas" id="historico-coletas">
+        <!-- Preenchido via JavaScript -->
+      </div>
+    </div>
+
+    <!-- Pagamentos -->
+    <div class="dashboard-card">
+      <h3><i class="fas fa-money-bill-wave"></i> Pagamentos</h3>
+      <div class="pagamentos-info" id="pagamentos-info">
+        <!-- Preenchido via JavaScript -->
+      </div>
+      <button class="vf-button vf-button--primary" onclick="realizarPagamento()">
+        <i class="fas fa-credit-card"></i> Realizar Pagamento
+      </button>
+    </div>
+
+    <!-- Avaliação do Serviço -->
+    <div class="dashboard-card">
+      <h3><i class="fas fa-star"></i> Avaliar Serviço</h3>
+      <div class="avaliacao-form">
+        <div class="rating">
+          <i class="fas fa-star" data-rating="1"></i>
+          <i class="fas fa-star" data-rating="2"></i>
+          <i class="fas fa-star" data-rating="3"></i>
+          <i class="fas fa-star" data-rating="4"></i>
+          <i class="fas fa-star" data-rating="5"></i>
+        </div>
+        <textarea placeholder="Deixe seu comentário..." id="avaliacao-comentario"></textarea>
+        <button class="vf-button vf-button--primary" onclick="enviarAvaliacao()">
+          <i class="fas fa-paper-plane"></i> Enviar Avaliação
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function initCliente() {
+  const clienteId = 1; // Simulado
+  const cliente = getClienteById(clienteId);
+  const stats = getEstatisticasCliente(clienteId);
+  
+  // Atualizar nome do cliente
+  document.getElementById('cliente-nome').textContent = cliente.nome;
+  
+  // Atualizar informações do cliente
+  document.getElementById('cliente-info').innerHTML = `
+    <div class="info-grid">
+      <div class="info-item">
+        <i class="fas fa-phone"></i>
+        <span>${cliente.telefone}</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-envelope"></i>
+        <span>${cliente.email}</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>${cliente.endereco}</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-trash"></i>
+        <span>${cliente.tipoResiduo.join(', ')}</span>
+      </div>
+    </div>
+  `;
+
+  // Atualizar informações do serviço
+  document.getElementById('servico-info').innerHTML = `
+    <div class="servico-grid">
+      <div class="servico-item">
+        <span class="label">Status</span>
+        <span class="status-badge status-${cliente.status}">${cliente.status}</span>
+      </div>
+      <div class="servico-item">
+        <span class="label">Frequência</span>
+        <span>${cliente.frequencia}</span>
+      </div>
+      <div class="servico-item">
+        <span class="label">Volume</span>
+        <span>${cliente.volume}</span>
+      </div>
+      <div class="servico-item">
+        <span class="label">Provedor</span>
+        <span>${stats.provedor.nome}</span>
+      </div>
+    </div>
+  `;
+
+  // Atualizar próxima coleta
+  const ultimaColeta = stats.ultimaColeta;
+  document.getElementById('proxima-coleta').innerHTML = `
+    <div class="coleta-info">
+      <div class="coleta-header">
+        <i class="fas fa-truck"></i>
+        <h4>Última Coleta</h4>
+      </div>
+      <p>Data: ${formatDate(ultimaColeta.data)}</p>
+      <p>Status: <span class="status-badge status-${ultimaColeta.status}">${ultimaColeta.status}</span></p>
+      <p>Observação: ${ultimaColeta.observacao}</p>
+    </div>
+  `;
+
+  // Atualizar histórico de coletas
+  document.getElementById('historico-coletas').innerHTML = cliente.historicoColetas
+    .sort((a, b) => new Date(b.data) - new Date(a.data))
+    .map(c => `
+      <div class="historico-item">
+        <div class="historico-info">
+          <h4>${formatDate(c.data)}</h4>
+          <p>${c.observacao}</p>
+        </div>
+        <span class="status-badge status-${c.status}">${c.status}</span>
+      </div>
+    `).join('');
+
+  // Atualizar informações de pagamento
+  document.getElementById('pagamentos-info').innerHTML = `
+    <div class="pagamentos-grid">
+      ${cliente.pagamentos.map(p => `
+        <div class="pagamento-item">
+          <div class="pagamento-info">
+            <h4>${p.mes}</h4>
+            <p>Valor: ${formatCurrency(p.valor)}</p>
+            <p>Status: <span class="status-badge status-${p.status}">${p.status}</span></p>
+            ${p.dataPagamento ? `<p>Pago em: ${formatDate(p.dataPagamento)}</p>` : ''}
+            ${p.dataVencimento ? `<p>Vencimento: ${formatDate(p.dataVencimento)}</p>` : ''}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  // Configurar avaliação
+  const stars = document.querySelectorAll('.rating .fa-star');
+  stars.forEach(star => {
+    star.addEventListener('click', () => {
+      const rating = star.dataset.rating;
+      stars.forEach(s => {
+        s.classList.toggle('active', s.dataset.rating <= rating);
+      });
+    });
+  });
+}
+
+function editarDados() {
+  showNotification('Funcionalidade em desenvolvimento', 'info');
+}
+
+function solicitarColeta() {
+  showNotification('Funcionalidade em desenvolvimento', 'info');
+}
+
+function realizarPagamento() {
+  showNotification('Funcionalidade em desenvolvimento', 'info');
+}
+
+function enviarAvaliacao() {
+  const rating = document.querySelectorAll('.rating .fa-star.active').length;
+  const comentario = document.getElementById('avaliacao-comentario').value;
+  
+  if (rating === 0) {
+    showNotification('Por favor, selecione uma avaliação', 'warning');
+    return;
+  }
+  
+  showNotification('Avaliação enviada com sucesso!', 'success');
+  document.querySelectorAll('.rating .fa-star').forEach(s => s.classList.remove('active'));
+  document.getElementById('avaliacao-comentario').value = '';
+}
+</script> 
