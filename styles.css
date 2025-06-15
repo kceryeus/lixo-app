@@ -842,4 +842,123 @@ body {
         width: 100%;
         justify-content: flex-end;
     }
-} 
+}
+
+/* Hamburger menu styles */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 16px 24px;
+  box-shadow: var(--card-shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-text {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.hamburger {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--primary-color);
+  transition: color 0.2s;
+  z-index: 1101;
+}
+.hamburger:focus {
+  outline: none;
+  color: var(--primary-dark);
+}
+
+/* Dropdown vertical menu styles */
+.top-dropdown-menu {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  display: none;
+  flex-direction: column;
+  z-index: 1100;
+  animation: fadeInMenu 0.25s;
+}
+.top-dropdown-menu.open {
+  display: flex;
+}
+.top-dropdown-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.top-dropdown-menu li {
+  border-bottom: 1px solid var(--secondary-color);
+}
+.top-dropdown-menu li:last-child {
+  border-bottom: none;
+}
+.menu-link, .logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 28px;
+  font-size: 1.1rem;
+  color: var(--text-color);
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+.menu-link:hover, .logout-btn:hover {
+  background: var(--secondary-color);
+}
+.logout-btn {
+  color: var(--danger-color);
+  font-weight: 500;
+  border: none;
+  background: none;
+}
+@keyframes fadeInMenu {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ajuste para header fixo */
+.app-header {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1200;
+}
+main {
+  margin-top: 80px;
+}
+
+@media (max-width: 600px) {
+  .top-dropdown-menu {
+    top: 56px;
+  }
+  .app-header {
+    padding: 12px 10px;
+  }
+  .logo-text {
+    font-size: 1.1rem;
+  }
+}
+
+/* Remover estilos antigos do side-menu e overlay */
+.side-menu, .overlay { display: none !important; } 

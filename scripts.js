@@ -182,24 +182,6 @@ function navegar(secao) {
         button.classList.toggle('active', button.textContent.trim().toLowerCase().includes(secao));
     });
 
-    // Inicializa o mapa se estiver na seção de rotas
-    if (secao === 'rotas') {
-        // Aguarda o Leaflet ser carregado
-        if (typeof L === 'undefined') {
-            console.error('Leaflet não está carregado');
-            showNotification('Erro ao carregar o mapa. Por favor, recarregue a página.', 'error');
-            return;
-        }
-        
-        // Aguarda o DOM estar pronto e a seção estar visível
-        setTimeout(() => {
-            const mapContainer = document.getElementById('map');
-            if (mapContainer && mapContainer.style.display !== 'none') {
-                initMap();
-            }
-        }, 100);
-    }
-
     // Atualiza as listas
     if (secao === 'clientes') {
         atualizarListaClientes();
@@ -1035,4 +1017,43 @@ window.cancelarFormRota = cancelarFormRota;
 window.adicionarPontoIntermediario = adicionarPontoIntermediario;
 window.salvarRota = salvarRota;
 window.atualizarListaRotas = atualizarListaRotas;
-window.excluirRota = excluirRota; 
+window.excluirRota = excluirRota;
+
+// Hamburger dropdown menu logic
+const hamburger = document.getElementById('hamburger-menu');
+const dropdownMenu = document.getElementById('top-dropdown-menu');
+
+if (hamburger && dropdownMenu) {
+  hamburger.addEventListener('click', () => {
+    dropdownMenu.classList.toggle('open');
+  });
+  // Fecha o menu ao clicar em qualquer link ou botão do menu
+  dropdownMenu.querySelectorAll('.menu-link, .logout-btn').forEach(item => {
+    item.addEventListener('click', () => {
+      dropdownMenu.classList.remove('open');
+    });
+  });
+  // SPA navigation for menu links
+  const menuMap = {
+    'Dashboard': 'dashboard',
+    'Clientes': 'clientes',
+    'Rotas': 'rotas',
+    'Veículos': 'veiculos'
+  };
+  dropdownMenu.querySelectorAll('.menu-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const text = link.textContent.trim();
+      if (menuMap[text]) {
+        navegar(menuMap[text]);
+      }
+    });
+  });
+  const logoutBtn = dropdownMenu.querySelector('.logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (typeof logout === 'function') logout();
+    });
+  }
+} 
